@@ -1,0 +1,304 @@
+{include file="public/__head" /}
+<nav class="breadcrumb">
+    <a class="breadcrumb-item" href="{:url('index/index/index')}">
+        <i class="fa fa-home"></i>首页
+    </a>
+</nav>
+<div class="content" style="padding: 0px;">
+    <div class="role_title">
+        <div class="icon_role"></div>
+        <div class="role_word">
+            角色管理
+        </div>
+    </div>
+    <div class="row" style="height: calc(100% - 30px);">
+        <div class="col-sm-5 role_left_table">
+            <button type="button" class="btn btn-sm btn-success" style="margin-top: 5px;margin-left: 2px;"
+                    data-toggle="modal"
+                    data-target="#addModal">添加
+            </button>
+            <div class="table-responsive" style="margin-top: 5px;">
+                <table class="table table-bordered table-hover table-striped">
+                    <thead>
+                    <tr>
+                        <th style="text-align: center">序号</th>
+                        <th style="text-align: center">角色名称</th>
+                        <th style="text-align: center">角色描述</th>
+                        <th style="width: 150px;text-align: center;">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {volist name="data" id="vo"}
+                    <tr>
+                        <td>{$i}</td>
+                        <td style="text-align: center">{$vo.role_name}</td>
+                        <td style="text-align: center">{$vo.role_desc}</td>
+                        <td style="text-align: center">
+                            <button type="button" class="btn btn-success btn-sm changeRole" data-toggle="modal"
+                                    data-target="#roleModal" data-id="{$vo.id}">修改
+                            </button>
+                            <button type="button" class="btn btn-light btn-sm showMange" data-id="{$vo.id}">显示成员
+                            </button>
+                        </td>
+                    </tr>
+                    {/volist}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-sm-7">
+            <div class="table-responsive" style="margin-top: 10px;">
+                <table class="table table-striped table-bordered" style="text-align: center">
+                    <thead>
+                    <tr>
+                        <th width="100px">序号</th>
+                        <th width="130px">编号</th>
+                        <th width="100px">姓名</th>
+                        <th width="130px">联系方式</th>
+                    </tr>
+                    </thead>
+                    <tbody class="show">
+                    <tr>
+                        <td colspan="4" style="text-align: center">暂无数据</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="roleModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">编辑</h6>
+                <button type="button" class="close btn btn-sm" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="roleForm">
+                    <table>
+                        <tr>
+                            <td><label for="departments">归属部门:</label></td>
+                            <td class="pl-10">
+                                <div class="input-group-sm">
+                                    <!--<select class="form-control" id="departments">-->
+                                        <!--<option>请选择</option>-->
+                                        <!--{volist name="department" id="vo"}-->
+                                        <!--<option value="{$vo.id}">{$vo.department_name}</option>-->
+                                        <!--{/volist}-->
+                                    <!--</select>-->
+                                    <input type="text" class="form-control" name="departments" id="departments" disabled/>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="roleName">名称:</label></td>
+                            <td class="pl-10">
+                                <div class="input-group-sm">
+                                    <input type="text" name="id" hidden id="id"/>
+                                    <input type="text" class="form-control" name="roleName" id="roleName"/>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="roleDesc">描述:</label></td>
+                            <td class="pl-10">
+                                <div class="input-group-sm">
+                                    <input type="text" class="form-control" name="roleDesc" id="roleDesc"/>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success btn-sm" data-dismiss="modal" id="roleSubmit">确定</button>
+                <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="addModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">编辑</h6>
+                <button type="button" class="close btn btn-sm" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="addForm">
+                    <table>
+                        <tr>
+                            <td><label for="department">归属部门:</label></td>
+                            <td class="pl-10">
+                                <div class="input-group-sm">
+                                    <select class="form-control" id="department">
+                                        <option>请选择</option>
+                                        {volist name="department" id="vo"}
+                                        <option value="{$vo.id}">{$vo.department_name}</option>
+                                        {/volist}
+                                    </select>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="name">名称:</label></td>
+                            <td class="pl-10">
+                                <div class="input-group-sm">
+                                    <input type="text" class="form-control" name="roleName" id="name"/>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="desc">描述:</label></td>
+                            <td class="pl-10">
+                                <div class="input-group-sm">
+                                    <input type="text" class="form-control" name="roleDesc" id="desc"/>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success btn-sm" data-dismiss="modal" id="roleAdd">确定</button>
+                <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $('.changeRole').click(function (e) {
+            e.preventDefault();
+            var roleId = {
+                id: $(this).attr("data-id")
+            };
+            $.ajax({
+                type: "post",
+                url: "{:url('index/index/roleEditInfo')}",
+                data: roleId,
+                dataType: "json",
+                success: function (data) {
+                    if (data) {
+                        $('#id').val(data.id);
+                        $('#departments').val(data.department.department_name);
+                        $('#roleName').val(data.role_name);
+                        $('#roleDesc').val(data.role_desc)
+                    } else {
+                        msg('编辑失败', '系统运行错误，请检查后台数据！');
+                    }
+                }
+            })
+        });
+        $('#roleSubmit').click(function (e) {
+            e.preventDefault();
+            var roleName = $('#roleName').val();
+            var roleDesc = $('#roleDesc').val();
+            var id = $('#id').val();
+            if (roleName.length <= 0) {
+                msg('编辑失败', '角色名称必填！');
+            }
+            var role = {
+                roleName: roleName,
+                roleDesc: roleDesc,
+                id: id
+            }
+            $.ajax({
+                type: "post",
+                url: "{:url('index/index/roleEdit')}",
+                data: role,
+                dataType: "json",
+                success: function (data) {
+                    if (data.code == 1) {
+                        layer.msg(data.msg, {
+                            icon: 6,
+                            time: 2000,
+                        }, function () {
+                            location.href = data.url;
+                        });
+                    } else {
+                        layer.open({
+                            title: '编辑失败',
+                            icon: 2,
+                            content: data.msg,
+                        });
+                    }
+                }
+            })
+        });
+        $('.showMange').click(function (e) {
+            e.preventDefault();
+            var showId = {
+                id: $(this).attr('data-id')
+            };
+            var html = '';
+            var list = [];
+            $.ajax({
+                type: "post",
+                url: "{:url('index/index/role')}",
+                data: showId,
+                dataType: "json",
+                success: function (data) {
+                    if (data) {
+                        console.log(data.data.data[0].manger);
+                        list = data.data.data[0].manger;
+                        if (list.length > 0) {
+                            for (var i = 0; i < list.length; i++) {
+                                html += '<tr>' +
+                                    '<td>' + list[i].id + '</td>' +
+                                    '<td>' + list[i].manger_no + '</td>' +
+                                    '<td>' + list[i].manger_name + '</td>' +
+                                    '<td>' + list[i].phone + '</td>';
+                                '</tr>'
+                            }
+                        } else {
+                            html = '<tr>' + '<td colspan="4" style="text-align: center">暂无数据</td>' + '</tr>'
+                        }
+                        $('.show').html(html);
+                    } else {
+                        msg('错误', '获取列表信息失败！');
+                    }
+                }
+            });
+        });
+        // 添加角色
+        $('#roleAdd').click(function (e) {
+            e.preventDefault();
+            var depart_name = $('#department').val();
+            var name = $('#name').val();
+            var desc = $('#desc').val();
+            if (name.length <= 0) {
+                msg('填写错误', '角色名称必填！');
+            }
+            if (depart_name == '请选择') {
+                msg('错误','归属部门必选！');
+                return;
+            }
+            var roleData = {
+                department: depart_name,
+                name: name,
+                desc: desc
+            };
+            $.ajax({
+                type: "post",
+                url: "{:url('index/index/roleAdd')}",
+                data: roleData,
+                dataType: "json",
+                success: function (data) {
+                    if (data.code == 1) {
+                        layer.msg(data.msg, {
+                            icon: 6,
+                            time: 2000,
+                        }, function () {
+                            location.href = data.url;
+                        });
+                    } else {
+                        msg('填写错误', data.msg);
+                    }
+                }
+            });
+        });
+    });
+</script>
+{include file="public/__footer" /}

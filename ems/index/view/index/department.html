@@ -1,0 +1,313 @@
+{include file="public/__head" /}
+<nav class="breadcrumb">
+    <a class="breadcrumb-item" href="{:url('index/index/index')}">
+        <i class="fa fa-home"></i>首页
+    </a>
+</nav>
+<div class="content" style="height: auto;padding-bottom: 10px;">
+    <div class="role_title">
+        <div class="icon_role"></div>
+        <div class="role_word">
+            部门设置
+        </div>
+    </div>
+    <div style="margin-top: 5px;margin-bottom: 5px;margin-left: 1px;">
+        <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#add">添加</button>
+    </div>
+    <div class="table-responsive" style="margin-top: 10px;text-align: center">
+        <table class="table table-striped table-sm table-bordered table-hover">
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>编号</th>
+                <th>部门名称</th>
+                <th>部门描述</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {volist name="data" id="vo"}
+            <tr>
+                <td>{$i + ($pageinit-1)*4}</td>
+                <td>{$vo.department_id}</td>
+                <td>{$vo.department_name}</td>
+                <td>{$vo.department_desc}</td>
+                <td>
+                    <button type="button" class="btn btn-sm btn-info getInfo" data-id="{$vo.id}">详情</button>
+                    <button type="button" class="btn btn-sm btn-success getModify" data-id="{$vo.id}" data-toggle="modal" data-target="#getModify">修改</button>
+                </td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+    </div>
+    <div class="page">{if $page}{$page}{else}&nbsp;{/if}</div>
+    <div class="role_title"></div>
+    <div class="table-responsive" style="margin-top: 10px;">
+        <table class="table table-sm table-hover table-striped table-bordered" style="text-align: center;">
+            <thead>
+            <tr>
+                <td>序号</td>
+                <td>员工编号</td>
+                <td>员工姓名</td>
+                <td>员工职位</td>
+                <td>员工属性</td>
+                <td>合同期限</td>
+            </tr>
+            </thead>
+            <tbody class="departemnts">
+            <tr>
+                <td colspan="6">暂无数据</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <!--添加-->
+    <div class="modal fade" id="add">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title">添加</h6>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="addForm">
+                        <table>
+                            <tr>
+                                <td><label for="no">部门编号:</label></td>
+                                <td class="pl-10">
+                                    <div class="input-group-sm" style="float:left;">
+                                        <input type="text" class="form-control" id="no" name="" value="" disabled style="width: 180px;" placeholder="编号">
+                                    </div>
+                                    <div style="float:left;margin-left: 2px;">
+                                        <button type="button" class="btn btn-sm btn-success" id="getNo" style="float:left;">获取</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <table>
+                            <tr>
+                                <td><label for="name">部门名称:</label></td>
+                                <td class="pl-10">
+                                    <div class="input-group-sm">
+                                        <input type="text" class="form-control" id="name" name="" value="" placeholder="部门名称">
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <table>
+                            <tr>
+                                <td><label for="desc">部门描述:</label></td>
+                                <td class="pl-10">
+                                    <textarea class="form-control" rows="5" id="desc" placeholder="部门描述"></textarea>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success btn-sm" data-dismiss="modal" id="addDepart">确定</button>
+                    <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--修改-->
+    <div class="modal fade" id="getModify">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title">编辑</h6>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="modifyForm">
+                                <table>
+                                    <tr>
+                                        <td><label for="department_no">部门编号:</label></td>
+                                        <td class="pl-10">
+                                            <div class="input-group-sm" style="float:left;">
+                                                <input type="text" hidden id="id"/>
+                                                <input type="text" class="form-control" id="department_no" name="" value="" disabled style="width: 180px;" placeholder="编号">
+                                            </div>
+                                            <div style="float:left;margin-left: 2px;">
+                                                <button type="button" class="btn btn-sm btn-success" class="getNo" style="float:left;" disabled>获取</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td><label for="department_name">部门名称:</label></td>
+                                        <td class="pl-10">
+                                            <div class="input-group-sm">
+                                                <input type="text" class="form-control" id="department_name" name="" value="" placeholder="部门名称">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td><label for="department_desc">部门描述:</label></td>
+                                        <td class="pl-10">
+                                            <textarea class="form-control" rows="5" id="department_desc" placeholder="部门描述"></textarea>
+                                        </td>
+                                    </tr>
+                                </table>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success btn-sm" data-dismiss="modal" id="modify">确定</button>
+                    <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $('#addDepart').click(function (e) {
+            e.preventDefault();
+            var addInfo = {
+                no: $('#no').val(),
+                name: $('#name').val(),
+                desc: $('#desc').val()
+            };
+            $.ajax({
+                type: "post",
+                url: "{:url('index/index/addDepart')}",
+                data: addInfo,
+                dataType: "json",
+                success: function (data) {
+                    if (data.code == 1) {
+                        layer.msg(data.msg, {
+                            icon: 6,
+                            time: 2000,
+                        }, function () {
+                            location.href = data.url;
+                        });
+                    } else {
+                        layer.open({
+                            title: '删除失败',
+                            icon: 2,
+                            content: data.msg,
+                        });
+                    }
+                }
+            });
+        });
+        $('#getNo').click(function (e) {
+            e.preventDefault();
+            var number = '';
+            var no = [0,1,2,3,4,5,6,7,8,9];
+            for (var i = 0; i < 4; i++) {
+                var index = Math.round(Math.random()*9);
+                number += no[index];
+            }
+            var mangerNo = "DNO" + number;
+            $('#no').val(mangerNo);
+        });
+
+        // 修改
+        $('.getModify').click(function (e) {
+            e.preventDefault();
+            var modify = {
+                id: $(this).attr('data-id')
+            };
+            console.log(modify);
+            $.ajax({
+                type: "post",
+                url: "{:url('index/index/department')}",
+                data: modify,
+                dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                    if (data) {
+                        $('#id').val(data.id);
+                        $('#department_no').val(data.department_id);
+                        $('#department_name').val(data.department_name);
+                        $('#department_desc').val(data.department_desc);
+                    } else {
+                        msg('错误','获取数据错误！');
+                    }
+                }
+            });
+        });
+        $('#modify').click(function (e) {
+            e.preventDefault();
+            var depName = $('#department_name').val();
+            var depDesc = $('#department_desc').val();
+            var depNo = $('#department_no').val();
+            if (depName.trim() == '') {
+                msg('错误','部门名称必填！');
+                return
+            }
+            var depInfo = {
+                id: $('#id').val(),
+                name: depName,
+                desc: depDesc
+            };
+            $.ajax({
+                type: "post",
+                url: "{:url('index/index/getModify')}",
+                data: depInfo,
+                dataType: "json",
+                success: function (data) {
+                    if (data.code == 1) {
+                        layer.msg(data.msg, {
+                            icon: 6,
+                            time: 2000,
+                        }, function () {
+                            location.href = data.url;
+                        });
+                    } else {
+                        layer.open({
+                            title: '删除失败',
+                            icon: 2,
+                            content: data.msg,
+                        });
+                    }
+                }
+            });
+        });
+        // 详情
+        $('.getInfo').click(function (e) {
+            e.preventDefault();
+            var depId = {
+                id: $(this).attr('data-id')
+            };
+            var depHtml = '';
+            var incumbency = '';
+            var jobyear = '';
+            $.ajax({
+                type: "post",
+                url: "{:url('index/index/getDepInfo')}",
+                data: depId,
+                dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                    if (data.length > 0) {
+                        for (var i = 0; i < data.length; i++) {
+                            if (data[i].incumbency == '0') {
+                                incumbency = '合同员工';
+                            } else {
+                                incumbency = '在职员工';
+                            }
+                            if (data[i].jobyear == null) {
+                                jobyear = '无';
+                            } else {
+                                jobyear = data[i].jobyear;
+                            }
+                            depHtml += '<tr><td>'+(i+1)+'</td><td>'+data[i].manger_no+'</td><td>'+data[i].manger_name+'</td><td>'+data[i].role.role_name+'</td><td>'+incumbency+'</td><td>'+jobyear+'</td></tr>'
+                        }
+                    } else {
+                        depHtml = '<tr><td colspan="6">暂无数据</td></tr>'
+                    }
+
+                    $('.departemnts').html(depHtml);
+                }
+            });
+        });
+    })
+</script>
+{include file="public/__footer" /}

@@ -1,0 +1,226 @@
+{include file="public/__head" /}
+<!--<div class="nav_title">-->
+    <nav class="breadcrumb">
+        <a class="breadcrumb-item" href="{:url('index/index/index')}">
+            <i class="fa fa-home"></i>首页
+        </a>
+    </nav>
+<!--</div>-->
+<div class="content" style="padding-left: 10px">
+    <div style="font-size: 18px; font-weight: bold; margin-bottom: 10px;">
+        个人信息
+    </div>
+    <form id="personForm" class="mb-5">
+        <table>
+            <tr>
+                <td>
+                    <label for="name">姓名:</label>
+                </td>
+                <td class="pl-10">
+                    <div class="input-group-sm">
+                        <input type="text" class="form-control" id="name" name="" value="{$info['manger_name']}">
+                    </div>
+                </td>
+            </tr>
+            <tr class="mb-5">
+                <td>
+                    <label for="pass">密码:</label>
+                </td>
+                <td class="pl-10">
+                    <div class="input-group-sm">
+                        <input type="password" class="form-control" id="pass" name="" value="{$info['pass']}" disabled>
+                    </div>
+                </td>
+            </tr>
+            <tr class="mb-5">
+                <td>
+                    <label for="name">部门:</label>
+                </td>
+                <td class="pl-10">
+                    <div class="input-group-sm">
+                        <input type="text" class="form-control" id="department" name=""
+                               value="{$info['department']['department_name']}" disabled>
+                    </div>
+                </td>
+            </tr>
+            <tr class="mb-5">
+                <td>
+                    <label for="name">角色:</label>
+                </td>
+                <td class="pl-10">
+                    <div class="input-group-sm">
+                        <input type="text" class="form-control" id="role" name="" value="{$info['role']['role_name']}" disabled>
+                    </div>
+                </td>
+            </tr>
+            <tr class="mb-5">
+                <td>
+                    <label for="name">邮箱:</label>
+                </td>
+                <td class="pl-10">
+                    <div class="input-group-sm">
+                        <input type="email" class="form-control" id="email" name="" value="{$info['email']}">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="name">手机:</label>
+                </td>
+                <td class="pl-10">
+                    <div class="input-group-sm">
+                        <input type="text" class="form-control" id="phone" name="" value="{$info['phone']}">
+                    </div>
+                </td>
+            </tr>
+            <tr style="margin-top: 10px;">
+                <td>
+                    &nbsp;
+                </td>
+                <td style="padding-left: 114px;padding-top: 10px;">
+                    <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#myModal">
+                        修改密码
+                    </button>
+                    <button type="button" class="btn btn-success btn-sm" id="submit">保存</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title" style="font-weight: bold;">修改密码</h6>
+                    <button type="button" class="close btn-sm" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="changePass">
+                        <table>
+                            <tr>
+                                <td>
+                                    <label for="oldPass">旧密码:</label>
+                                </td>
+                                <td class="pl-10">
+                                    <div class="input-group-sm">
+                                        <input type="password" class="form-control" id="oldPass" name="oldPass"
+                                               value="" placeholder="旧密码">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="mb-5">
+                                <td>
+                                    <label for="newPass">新密码:</label>
+                                </td>
+                                <td class="pl-10">
+                                    <div class="input-group-sm">
+                                        <input type="password" class="form-control" id="newPass" name="oldPass"
+                                               value="" placeholder="新密码">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="mb-5">
+                                <td>
+                                    <label for="secondPass">确认密码:</label>
+                                </td>
+                                <td class="pl-10">
+                                    <div class="input-group-sm">
+                                        <input type="password" class="form-control" id="secondPass" name="oldPass"
+                                               value="" placeholder="确认密码">
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success btn-sm" data-dismiss="modal" id="onChange">确定</button>
+                    <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    $(function () {
+        $('#submit').click(function (e) {
+            e.preventDefault();
+            var name = $('#name').val();
+            var phone = $('#phone').val();
+            var email = $('#email').val();
+            testEmail(email);
+            testPhone(phone);
+            var info = {
+                id: "{$info['id']}",
+                name: name,
+                phone: phone,
+                email: email
+            };
+            $.ajax({
+                type: "post",
+                url: "{:url('index/index/changeInfo')}",
+                data: info,
+                dataType: "json",
+                success: function (data) {
+                    if (data.code == 1) {
+                        layer.msg(data.msg, {
+                            icon: 6,
+                            time: 2000,
+                        }, function () {
+                            location.href = data.url;
+                        });
+                    } else {
+                        msg('保存失败',data.msg);
+                    }
+                }
+            })
+        });
+        $('#onChange').click(function (e) {
+            e.preventDefault();
+            var newPass = $('#newPass').val();
+            var secondPass = $('#secondPass').val();
+            var oldPass = $('#oldPass').val();
+            if (newPass.length < 6) {
+                msg('密码错误','新密码长度不小于6！');
+                return;
+            }
+            if (oldPass == "{$info['pass']}") {
+                if (newPass == secondPass) {
+                    var data = {
+                        pass: newPass,
+                        id: Number("{$info['id']}")
+                    };
+                    console.log(data);
+                    $.ajax({
+                        type: "post",
+                        url: "{:url('index/index/changePass')}",
+                        data: data,
+                        dataType: "",
+                        success: function (data) {
+                            if (data.code == 1) {
+                                layer.msg(data.msg, {
+                                    icon: 6,
+                                    time: 2000,
+                                }, function () {
+                                    location.href = data.url;
+                                });
+                            } else {
+                                layer.open({
+                                    title: '退出登陆失败',
+                                    icon: 2,
+                                    content: data.msg,
+                                });
+                            }
+
+                        }
+                    });
+                } else {
+                    msg('密码错误','二次密码错误！');
+                }
+            } else {
+                msg('密码错误','原始密码填写错误！')
+            }
+        });
+    });
+</script>
+{include file="public/__footer" /}

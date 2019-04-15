@@ -1,0 +1,339 @@
+{include file="public/__head" /}
+<nav class="breadcrumb">
+    <a class="breadcrumb-item" href="{:url('index/index/index')}">
+        <i class="fa fa-home"></i>首页
+    </a>
+    <a class="breadcrumb-item" href="{:url('index/index/mangerList')}">
+        员工列表
+    </a>
+</nav>
+<div class="content" style="height: auto;margin-bottom: 10px;padding-bottom: 20px;">
+    <div class="role_title">
+        <div class="icon_role"></div>
+        <div class="role_word">
+            员工添加
+        </div>
+    </div>
+    <form id="addForm" class="addForm" style="margin-top: 5px;margin-left: 11px">
+        <div class="row">
+            <div class="col-sm-4">
+                <table>
+                    <tr>
+                        <td><label for="manger_no">员工编号:</label></td>
+                        <td class="pl-10">
+                            <div class="input-group-sm" style="float:left;">
+                                <input type="text" class="form-control" id="manger_no" name="" value="" disabled style="width: 180px;" placeholder="编号">
+                            </div>
+                            <div style="float:left;margin-left: 2px;">
+                                <button type="button" class="btn btn-sm btn-success" id="getNo" style="float:left;">获取</button>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-sm-4">
+                <table>
+                    <tr>
+                        <td><label for="name">员工姓名:</label></td>
+                        <td class="pl-10">
+                            <div class="input-group-sm">
+                                <input type="text" class="form-control" id="name" name="" value="" placeholder="姓名">
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-sm-4">
+                <table>
+                    <tr>
+                        <td><label for="name">登录密码:</label></td>
+                        <td class="pl-10">
+                            <div class="input-group-sm">
+                                <input type="password" class="form-control" id="pass" name="" value="" placeholder="密码">
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 5px;">
+            <div class="col-sm-4">
+                <table>
+                    <tr>
+                        <td style="padding-left: 32px;"><label for="sex">性别:</label></td>
+                        <td class="pl-10">
+                            <div class="input-group-sm">
+                                <select class="form-control" id="sex">
+                                    <option value="0">男</option>
+                                    <option value="1">女</option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-sm-4">
+                <table>
+                    <tr>
+                        <td style="padding-left: 32px;"><label for="address">地址:</label></td>
+                        <td class="pl-10">
+                            <div class="input-group-sm">
+                                <input type="text" class="form-control" id="address" name="" value="" placeholder="地址">
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-sm-4">
+                <table>
+                    <tr>
+                        <td><label for="marry">婚姻状态:</label></td>
+                        <td class="pl-10">
+                            <div class="input-group-sm">
+                                <select class="form-control" id="marry">
+                                    <option value="0">未婚</option>
+                                    <option value="1">已婚</option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 5px;">
+            <div class="col-sm-4">
+                <table>
+                    <tr>
+                        <td style="padding-left: 16px;"><label for="name">手机号:</label></td>
+                        <td class="pl-10">
+                            <div class="input-group-sm">
+                                <input type="text" class="form-control" id="phone" name="" value="" placeholder="手机号">
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-sm-4">
+                <table>
+                    <tr>
+                        <td style="padding-left: 32px;"><label for="name">邮箱:</label></td>
+                        <td class="pl-10">
+                            <div class="input-group-sm">
+                                <input type="email" class="form-control" id="email" name="" value="" placeholder="邮箱">
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </form>
+    <div class="role_title"></div>
+    <form class="addForm" style="margin-top: 25px;margin-left: 11px">
+        <div class="row" >
+            <div class="col-sm-4">
+                <table>
+                    <tr>
+                        <td><label for="name">隶属部门:</label></td>
+                        <td class="pl-10">
+                            <div class="input-group-sm">
+                                <select class="form-control" id="department">
+                                    <option>请选择</option>
+                                    {volist name="department" id="vo"}
+                                    <option value="{$vo.id}">{$vo.department_name}</option>
+                                    {/volist}
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-sm-4">
+                <table>
+                    <tr>
+                        <td><label for="name">角色类型:</label></td>
+                        <td class="pl-10">
+                            <div class="input-group-sm">
+                                <select class="form-control" id="role">
+                                    <option>请选择</option>
+                                    {volist name="role" id="vo"}
+                                    <option value="{$vo.id}">{$vo.role_name}</option>
+                                    {/volist}
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-sm-4">
+                <table>
+                    <tr>
+                        <td><label for="name">职位属性:</label></td>
+                        <td class="pl-10">
+                            <div class="input-group-sm">
+                                <select class="form-control" id="incumbency">
+                                    <option>请选择</option>
+                                    <option value="0">在职员工</option>
+                                    <option value="1">实习员工</option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 5px;">
+            <div class="col-sm-4">
+                <table>
+                    <tr>
+                        <td><label for="name">合同期限:</label></td>
+                        <td class="pl-10">
+                            <div class="input-group-sm">
+                                <input type="text" class="form-control" id="year" name="" value="" placeholder="期限">
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </form>
+    <div class="role_title"></div>
+    <div style="margin-top: 20px;">
+        <button type="button" class="btn btn-sm btn-success" id="submits">提交</button>
+    </div>
+</div>
+<script>
+    $(function () {
+        $('#getNo').click(function (e) {
+            e.preventDefault();
+            var number = '';
+            var no = [0,1,2,3,4,5,6,7,8,9];
+            for (var i = 0; i < 4; i++) {
+                var index = Math.round(Math.random()*9);
+                number += no[index];
+            }
+            var mangerNo = "EN" + number;
+            $('#manger_no').val(mangerNo);
+        });
+        $('#year').change(function (e) {
+            e.preventDefault();
+            $('#year').val($('#year').val() + '年');
+        });
+        // 伴随更改
+        $('#department').change(function (e) {
+            e.preventDefault();
+            var depart_id = {
+                id: $('#department').val()
+            };
+            console.log(depart_id);
+            var roleHtml = '';
+            $.ajax({
+                type: "post",
+                url: "{:url('index/index/changeRole')}",
+                data: depart_id,
+                dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                    if (data.length > 0) {
+                        for (var i = 0; i < data.length; i++) {
+                            roleHtml += '<option value="'+data[i].id+'">'+data[i].role_name+'</option>'
+                        }
+                    } else {
+                        roleHtml = '<option>暂无数据</option>'
+                    }
+                    $('#role').html(roleHtml);
+                }
+            });
+        });
+        // 提交
+        $('#submits').click(function (e) {
+            e.preventDefault();
+            var manger_no = $('#manger_no').val();
+            var name = $('#name').val();
+            var pass = $('#pass').val();
+            var sex = $('#sex').val();
+            var address = $('#address').val();
+            var marry = $('#marry').val();
+            var phone = $('#phone').val();
+            var email = $('#email').val();
+            var department = $('#department').val();
+            var role = $('#role').val();
+            var incumbency = $('#incumbency').val();
+            var year = $('#year').val();
+            if (email.length > 0 || email.trim() != '') {
+                testEmail(email);
+            }
+            if (phone.length > 0 || phone.trim() != '') {
+                testPhone(phone);
+            }
+            if (incumbency == '0') {
+                if (year.length <= 0 || year.trim() == '') {
+                    msg('错误','该员工为在职员工，请填写合同期限！');
+                    return;
+                }
+            }
+            if (department == 1) {
+                if (role == 2 || role == 4) {
+
+                } else {
+                    msg('错误','部门与角色不匹配！');
+                    return;
+                }
+            }
+            if (department == 2) {
+                if (role == 3 || role == 5) {
+
+                } else {
+                    msg('错误','部门与角色不匹配！');
+                    return;
+                }
+            }
+            if (department == '请选择') {
+                msg('错误','部门必选！');
+            }
+            if (role == '请选择') {
+                msg('错误','角色必选！');
+            }
+            if (incumbency == '请选择') {
+                msg('错误','职位属性必选！');
+            }
+            var mangerInfo = {
+                no: manger_no,
+                name: name,
+                pass: pass,
+                sex: sex,
+                address: address,
+                marry: marry,
+                phone: phone,
+                email: email,
+                department: department,
+                role: role,
+                incumbency: incumbency,
+                year: year
+            };
+            $.ajax({
+                type: "post",
+                url: "{:url('index/index/addManger')}",
+                data: mangerInfo,
+                dataType: "json",
+                success: function (data) {
+                    if (data.code == 1) {
+                        layer.msg(data.msg, {
+                            icon: 6,
+                            time: 2000,
+                        }, function () {
+                            location.href = data.url;
+                        });
+                    } else {
+                        layer.open({
+                            title: '删除失败',
+                            icon: 2,
+                            content: data.msg,
+                        });
+                    }
+                }
+            });
+
+        });
+    });
+</script>
+{include file="public/__footer" /}

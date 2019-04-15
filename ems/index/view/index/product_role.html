@@ -1,0 +1,278 @@
+{include file="public/__head" /}
+<nav class="breadcrumb">
+    <a class="breadcrumb-item" href="{:url('index/index/index')}">
+        <i class="fa fa-home"></i>首页
+    </a>
+    <a class="breadcrumb-item" href="{:url('index/index/productList')}">
+        产品列表
+    </a>
+</nav>
+<div class="content" style="height: auto;margin-bottom: 10px;padding-bottom: 20px;">
+    <div class="role_title">
+        <div class="icon_role"></div>
+        <div class="role_word">
+            产品分类
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-5 role_left_table">
+            <button type="button" class="btn btn-sm btn-success"
+                    style="margin-top: 5px;margin-left: 2px;margin-bottom: 5px;"
+                    data-toggle="modal"
+                    data-target="#addModal">添加
+            </button>
+            <table class="table table-sm table-hover table-bordered table-striped table-responsive-sm"
+                   style="text-align: center">
+                <thead>
+                <tr>
+                    <td>序号</td>
+                    <td>名称</td>
+                    <td>创建人</td>
+                    <td>创建时间</td>
+                    <td>操作</td>
+                </tr>
+                </thead>
+                <tbody>
+                {volist name="data" id="vo"}
+                <tr>
+                    <td>{$i}</td>
+                    <td>{$vo.role_name}</td>
+                    <td>{$vo.addManger.manger_name}</td>
+                    <td>{$vo.add_time}</td>
+                    <td style="text-align: center">
+                        <button type="button" class="btn btn-info btn-sm showInfo" data-id="{$vo.id}">详情</button>
+                        <button type="button" class="btn btn-success btn-sm changeRolePro" data-toggle="modal"
+                                data-target="#roleModal" data-id="{$vo.id}">修改
+                        </button>
+                        <button type="button" class="btn btn-danger btn-sm delete" data-id="{$vo.id}">删除</button>
+                    </td>
+                </tr>
+                {/volist}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-sm-7">
+            <div class="" style="margin-top: 10px;">
+                <table class="table table-striped table-bordered table-responsive-sm table-sm table-hover"
+                       style="text-align: center">
+                    <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>产品编号</th>
+                        <th>产品名称</th>
+                        <th>供应商</th>
+                        <th>售价</th>
+                        <th>剩余数量</th>
+                    </tr>
+                    </thead>
+                    <tbody class="show">
+                    <tr>
+                        <td colspan="6" style="text-align: center">暂无数据</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="addModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">编辑</h6>
+                <button type="button" class="close btn btn-sm" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="roleFormAdd">
+                    <table>
+                        <tr>
+                            <td><label for="roleProName">名称:</label></td>
+                            <td class="pl-10">
+                                <div class="input-group-sm">
+                                    <input type="text" class="form-control" name="name" id="name"/>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success btn-sm" data-dismiss="modal" id="save">保存</button>
+                <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="roleModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">编辑</h6>
+                <button type="button" class="close btn btn-sm" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="roleForm">
+                    <table>
+                        <tr>
+                            <td><label for="roleProName">名称:</label></td>
+                            <td class="pl-10">
+                                <div class="input-group-sm">
+                                    <input type="text" hidden id="id"/>
+                                    <input type="text" class="form-control" name="roleProName" id="roleProName"/>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success btn-sm" data-dismiss="modal" id="roleProSubmit">保存</button>
+                <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        // 显示详情
+        $('.showInfo').click(function (e) {
+            e.preventDefault();
+            var infoId = {
+                id: $(this).attr('data-id')
+            };
+            var html = '';
+            $.ajax({
+                type: "post",
+                url: "{:url('index/index/showInfo')}",
+                data: infoId,
+                dataType: "json",
+                success: function (data) {
+                    if (data) {
+                        if (data.length > 0) {
+                            for (var i = 0; i < data.length; i++) {
+                                var price = '';
+                                price = data[i].quantity - data[i].salenumber;
+                                html += '<tr><td>'+(i+1)+'</td><td>'+data[i].pro_no+'</td><td>'+data[i].pro_name+'</td><td>'+data[i].supplier.sup_name+'</td><td>'+data[i].price+'</td><td>'+price+'</td></tr>'
+                            }
+                        } else {
+                            html = '<tr>' + '<td colspan="6" style="text-align: center">暂无数据</td>' + '</tr>'
+                        }
+                        $('.show').html(html);
+                    } else {
+                        msg('错误', '获取列表信息失败！');
+                    }
+                }
+            })
+        });
+        // 编辑
+        $('#roleProSubmit').click(function (e) {
+            e.preventDefault();
+            var edit = {
+                id: $('#id').val(),
+                name: $('#roleProName').val()
+            };
+            $.ajax({
+                type: "post",
+                url: "{:url('index/index/productRole')}",
+                data: edit,
+                dataType: "json",
+                success: function (data) {
+                    if (data.code == 1) {
+                        layer.msg(data.msg, {
+                            icon: 6,
+                            time: 2000,
+                        }, function () {
+                            location.href = data.url;
+                        });
+                    } else {
+                        layer.open({
+                            title: '操作失败',
+                            icon: 2,
+                            content: data.msg,
+                        });
+                    }
+                }
+            })
+        });
+        // 删除
+        $('.delete').click(function (e) {
+            e.preventDefault();
+            var deleteId = {
+                id: $(this).attr('data-id')
+            };
+            $.ajax({
+                type: "post",
+                url: "{:url('index/index/deleteRolePro')}",
+                data: deleteId,
+                dataType: "json",
+                success: function (data) {
+                    if (data.code == 1) {
+                        layer.msg(data.msg, {
+                            icon: 6,
+                            time: 2000,
+                        }, function () {
+                            location.href = data.url;
+                        });
+                    } else {
+                        layer.open({
+                            title: '操作失败',
+                            icon: 2,
+                            content: data.msg,
+                        });
+                    }
+                }
+            })
+        });
+        // 添加
+        $('#save').click(function (e) {
+            e.preventDefault();
+            var name = {
+                name: $('#name').val()
+            };
+            $.ajax({
+                type: "post",
+                url: "{:url('index/index/addRolePro')}",
+                data: name,
+                dataType: "json",
+                success: function (data) {
+                    if (data.code == 1) {
+                        layer.msg(data.msg, {
+                            icon: 6,
+                            time: 2000,
+                        }, function () {
+                            location.href = data.url;
+                        });
+                    } else {
+                        layer.open({
+                            title: '编辑失败',
+                            icon: 2,
+                            content: data.msg,
+                        });
+                    }
+                }
+            })
+        });
+        // 获取修改信息
+        $('.changeRolePro').click(function (e) {
+            e.preventDefault();
+            var id = {
+                id: $(this).attr('data-id')
+            };
+            $.ajax({
+                type: "post",
+                url: "{:url('index/index/editRolePro')}",
+                data: id,
+                dataType: "json",
+                success: function (data) {
+                    if (data) {
+                        $('#id').val(data.id);
+                        $('#roleProName').val(data.role_name);
+                    } else {
+                        msg('编辑失败', '系统运行错误，请检查后台数据！');
+                    }
+                }
+            })
+        });
+    })
+</script>
+{include file="public/__footer" /}

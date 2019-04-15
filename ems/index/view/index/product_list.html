@@ -1,0 +1,102 @@
+{include file="public/__head" /}
+<nav class="breadcrumb">
+    <a class="breadcrumb-item" href="{:url('index/index/index')}">
+        <i class="fa fa-home"></i>首页
+    </a>
+</nav>
+<div class="content" style="height: auto;margin-bottom: 10px;padding-bottom: 20px;">
+    <div class="role_title">
+        <div class="icon_role"></div>
+        <div class="role_word">
+            产品列表
+        </div>
+    </div>
+    <div style="margin-top: 5px;">
+        <a class="btn btn-success btn-sm" href="{:url('index/index/addPro')}">添加</a>
+    </div>
+    <div style="width: 100%;height: auto; margin-top: 5px;">
+    <table class="table table-responsive-sm table-bordered table-striped table-sm table-hover" style="text-align: center">
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th>编号</th>
+            <th>名称</th>
+            <th>类别</th>
+            <th>添加人</th>
+            <th>添加时间</th>
+            <td>操作</td>
+        </tr>
+        </thead>
+        <tbody>
+        {volist name="data" id="vo"}
+        <tr>
+            <td>{$i + ($pageinit-1)*2}</td>
+            <td>{$vo.pro_no}</td>
+            <td>{$vo.pro_name}</td>
+            <td>{$vo.role.role_name}</td>
+            <td>{$vo.manger.manger_name}</td>
+            <td>{$vo.add_time}</td>
+            <td>
+                <button type="button" class="btn btn-info btn-sm infoPro" id="infoPro" data-id="{$vo.id}">详情</button>
+                <a  class="btn btn-sm btn-success" href="{:url('index/index/editProduct')}?id={$vo.id}">编辑</a>
+                <button type="button" class="btn btn-danger btn-sm delPro" id="delPro" data-id="{$vo.id}">删除</button>
+            </td>
+        </tr>
+        {/volist}
+        </tbody>
+    </table>
+    </div>
+    <div class="page" style="margin-top: 10px;">{if $page}{$page}{else}&nbsp;{/if}</div>
+    <div class="role_title"></div>
+    <div style="margin-top: 10px;">
+        <table class="table table-responsive-sm table-bordered table-striped table-sm table-hover" style="text-align: center">
+            <thead>
+            <tr>
+                <th>编号</th>
+                <th>供应商</th>
+                <th>成本价</th>
+                <th>售价</th>
+                <th>产品数量</th>
+                <th>剩余数量</th>
+                <th>型号</th>
+            </tr>
+            </thead>
+            <tbody id="tbody">
+            <tr>
+                <td colspan="7">
+                    暂无数据
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    $(function () {
+        $('.infoPro').click(function (e) {
+            e.preventDefault();
+            var infoId = {
+                id: $(this).attr('data-id')
+            };
+            var roleHtml = '';
+            var number = '';
+            $.ajax({
+                type: "post",
+                url: "{:url('index/index/infoPro')}",
+                data: infoId,
+                dataType: "json",
+                success: function (data) {
+                    if (data.id != undefined) {
+                        console.log(data);
+                        number = data.quantity - data.salenumber;
+                        roleHtml = '<tr><td>'+data.pro_no+'</td><td>'+data.supplier.sup_name+'</td><td>'+data.costprice+'</td><td>'+data.price+'</td><td>'+data.quantity+'</td><td>'+number+'</td><td>'+data.model+'</td></tr>';
+                    } else {
+                        roleHtml = '<tr><td colspan="7">暂无数据</td></tr>'
+                    }
+                    $('#tbody').html(roleHtml);
+                }
+            })
+        });
+    })
+</script>
+{include file="public/__footer" /}

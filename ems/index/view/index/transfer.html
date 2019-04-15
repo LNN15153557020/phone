@@ -1,0 +1,281 @@
+{include file="public/__head" /}
+<nav class="breadcrumb">
+    <a class="breadcrumb-item" href="{:url('index/index/index')}">
+        <i class="fa fa-home"></i>首页
+    </a>
+</nav>
+<div class="content" style="height: auto;margin-bottom: 10px;padding-bottom: 20px;">
+    <div class="role_title">
+        <div class="icon_role"></div>
+        <div class="role_word">
+            员工调动
+        </div>
+    </div>
+    <form id="transferForm" class="transferForm" style="margin-top: 10px;margin-left: 11px">
+        <div class="row">
+            <div class="col-sm-4">
+                <table>
+                    <tr>
+                        <td><label for="name">员工姓名:</label></td>
+                        <td class="pl-10">
+                            <div class="input-group-sm">
+                                <select class="form-control" id="name">
+                                    <option>请选择</option>
+                                    {volist name="manger" id="vo"}
+                                    <option value="{$vo.id}">{$vo.manger_name}</option>
+                                    {/volist}
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-sm-4">
+                <table>
+                    <tr>
+                        <td><label for="oldDepartment">原始部门:</label></td>
+                        <td class="pl-10">
+                            <div class="input-group-sm">
+                                <input type="text" class="form-control" id="oldDepartment" name="" placeholder="原始部门"
+                                       disabled>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-sm-4">
+                <table>
+                    <tr>
+                        <td><label for="oldRole">原始角色:</label></td>
+                        <td class="pl-10">
+                            <div class="input-group-sm">
+                                <input type="text" class="form-control" id="oldRole" name="" placeholder="原始角色"
+                                       disabled>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 10px;">
+            <div class="col-sm-4">
+                <table>
+                    <tr>
+                        <td><label for="newDepartment">调到部门:</label></td>
+                        <td class="pl-10">
+                            <div class="input-group-sm">
+                                <select class="form-control" id="newDepartment">
+                                    <option>请选择</option>
+                                    {volist name="department" id="vo"}
+                                    <option value="{$vo.id}">{$vo.department_name}</option>
+                                    {/volist}
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-sm-4">
+                <table>
+                    <tr>
+                        <td><label for="newRole">更改角色:</label></td>
+                        <td class="pl-10">
+                            <div class="input-group-sm">
+                                <select class="form-control" id="newRole">
+                                    <option>请选择</option>
+                                    {volist name="role" id="vo"}
+                                    <option value="{$vo.id}">{$vo.role_name}</option>
+                                    {/volist}
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 10px;">
+            <div class="col-sm-4">
+                <table>
+                    <tr>
+                        <td><label for="comment">调离原因:</label></td>
+                        <td class="pl-10">
+                            <div class="input-group-sm">
+                                <textarea class="form-control" rows="5" id="comment" placeholder="调离原因"></textarea>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </form>
+    <div style="margin-top: 10px;margin-left: 10px">
+        <button type="button" class="btn btn-sm btn-success" id="submit">提交</button>
+    </div>
+    <div class="role_title"></div>
+    <div class="table-responsive">
+        <table class="table table-sm table-striped table-bordered" style="text-align: center;margin-top: 20px;">
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>编号</th>
+                <th>员工名称</th>
+                <th>调离原因</th>
+                <th>审批状态</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {volist name="transferData" id="vo"}
+            <tr>
+                <td>{$i + ($pageinit-1)*2}</td>
+                <td>{$vo.mangers.manger_no}</td>
+                <td>{$vo.mangers.manger_name}</td>
+                <td>{$vo.tr_desc}</td>
+                <td>{if $vo.states == 0}<span class="badge badge-danger">未通过</span>
+                    {else}<span class="badge badge-success">已通过</span>
+                    {/if}
+                </td>
+                <td>
+                    {if session('roleId') == 1 || session('roleId') == 4 || session('roleId') == 5}
+                    <button type="button" class="btn btn-sm btn-success goSuccess" data-id="{$vo.id}">通过</button>
+                    {else}
+                    <button type="button" class="btn btn-sm btn-success" disabled></button>
+                    {/if}
+                </td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+    </div>
+    <div class="page">{if $page}{$page}{else}&nbsp;{/if}</div>
+</div>
+<script>
+    $(function () {
+        //通过
+        $('.goSuccess').click(function (e) {
+            e.preventDefault();
+            var infoId = {
+                id: $(this).attr("data-id")
+            };
+            $.ajax({
+                type: "post",
+                url: "{:url('index/index/transfer')}",
+                data: infoId,
+                dataType: "json",
+                success: function (data) {
+                    if (data.code == 1) {
+                        layer.msg(data.msg, {
+                            icon: 6,
+                            time: 2000,
+                        }, function () {
+                            location.href = data.url;
+                        });
+                    } else {
+                        layer.open({
+                            title: '删除失败',
+                            icon: 2,
+                            content: data.msg,
+                        });
+                    }
+                }
+            });
+        });
+        //提交
+        $('#submit').click(function (e) {
+            e.preventDefault();
+            var nameId = $('#name').val();
+            var departmentId = $('#newDepartment').val();
+            var roleId = $('#newRole').val();
+            var desc = $('#comment').val();
+            if (nameId == '请选择') {
+                msg('错误', '员工必选！');
+                return;
+            }
+            if (departmentId == '请选择') {
+                msg('错误', '部门必选！');
+                return;
+            }
+            if (roleId == '请选择') {
+                msg('错误', '角色必选！');
+                return;
+            }
+            if (desc.trim() == '') {
+                msg('错误', '调离原因必填！');
+                return;
+            }
+            if (departmentId == 1) {
+                if (roleId == 2 || roleId == 4) {
+
+                } else {
+                    msg('错误', '部门与角色不匹配！');
+                    return;
+                }
+            }
+            if (departmentId == 2) {
+                if (roleId == 3 || roleId == 5) {
+
+                } else {
+                    msg('错误', '部门与角色不匹配！');
+                    return;
+                }
+            }
+            var transferInfo = {
+                id: nameId,
+                department: departmentId,
+                role: roleId,
+                desc: desc
+            };
+            console.log(transferInfo);
+            $.ajax({
+                type: "post",
+                url: "{:url('index/index/editTran')}",
+                data: transferInfo,
+                dataType: "json",
+                success: function (data) {
+                    if (data.code == 1) {
+                        layer.msg(data.msg, {
+                            icon: 6,
+                            time: 2000,
+                        }, function () {
+                            location.href = data.url;
+                        });
+                    } else {
+                        layer.open({
+                            title: '删除失败',
+                            icon: 2,
+                            content: data.msg,
+                        });
+                    }
+                }
+            });
+        });
+        // 改变
+        $('#name').change(function (e) {
+            e.preventDefault();
+            if ($('#name').val() == '请选择') {
+                $('#oldDepartment').val('');
+                $('#oldRole').val('');
+                return;
+            } else {
+                var id = {id: $('#name').val()};
+            }
+            console.log($('#name').val());
+            $.ajax({
+                type: "post",
+                url: "{:url('index/index/getManger')}",
+                data: id,
+                dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                    if (data) {
+                        $('#oldDepartment').val(data.department.department_name);
+                        $('#oldRole').val(data.role.role_name);
+                    } else {
+                        msg('错误', '获取信息失败！');
+                    }
+                }
+            })
+        });
+    });
+</script>
+{include file="public/__footer" /}

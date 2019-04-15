@@ -1,0 +1,92 @@
+{include file="public/__head" /}
+<nav class="breadcrumb">
+    <a class="breadcrumb-item" href="{:url('index/index/index')}">
+        <i class="fa fa-home"></i>首页
+    </a>
+</nav>
+<div class="content" style="height: auto;margin-bottom: 10px;padding-bottom: 20px;">
+    <div class="role_title">
+        <div class="icon_role"></div>
+        <div class="role_word">
+            员工列表
+        </div>
+    </div>
+    <div style="margin-top: 5px;">
+        <a class="btn btn-success btn-sm" href="{:url('index/index/addManger')}">添加</a>
+    </div>
+    <div style="width: 100%;height: auto; margin-top: 5px;">
+        <table class="table table-bordered table-striped table-sm table-hover table-responsive-sm" style="text-align: center;">
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>编号</th>
+                <th>姓名</th>
+                <th>角色</th>
+                <th>在职部门</th>
+                <th>属性</th>
+                <th>联系方式</th>
+                <th>入职时间</th>
+                <td>操作</td>
+            </tr>
+            </thead>
+            <tbody>
+            {volist name="data" id="vo"}
+            <tr>
+                <td>{$i + ($pageinit-1)*2}</td>
+                <td>{$vo.manger_no}</td>
+                <td>{$vo.manger_name}</td>
+                <td>{$vo.role.role_name}</td>
+                <td>{$vo.department.department_name}</td>
+                <td>{if $vo.incumbency == 0} 正式员工 {else} 实习员工 {/if}</td>
+                <td>{if $vo.phone != ''}{$vo.phone}{else}{$vo.email}{/if}</td>
+                <td>{$vo.create_date}</td>
+                <td>
+                    <a  class="btn btn-sm btn-success" href="{:url('index/index/editManger')}?id={$vo.id}">编辑</a>
+                    {if session('roleId') == 1 || session('roleId') == 4 || session('roleId') == 5}
+                    <button type="button" class="btn btn-danger btn-sm delManger" id="delManger" data-id="{$vo.id}">删除</button>
+                    {/if}
+                </td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+    </div>
+    <div class="page" style="margin-top: 10px;">{if $page}{$page}{else}&nbsp;{/if}</div>
+</div>
+<script>
+    $(function () {
+       $('.delManger').click(function (e) {
+           e.preventDefault();
+           var dataId = {
+               id: $(this).attr('data-id')
+           }
+           layer.confirm('您确定要删除该员工吗?', { icon: 3, title: '删除' }, function (index) {
+               $.ajax({
+                   type: "post",
+                   url: "{:url('index/index/delManger')}",
+                   data: dataId,
+                   dataType: "json",
+                   success: function (data) {
+                       if (data.code == 1) {
+                           layer.msg(data.msg, {
+                               icon: 6,
+                               time: 2000,
+                           }, function () {
+                               location.href = data.url;
+                           });
+                       } else {
+                           layer.open({
+                               title: '删除失败',
+                               icon: 2,
+                               content: data.msg,
+                           });
+                       }
+
+                   }
+               });
+               layer.close(index);
+           });
+       });
+    });
+</script>
+{include file="public/__footer" /}

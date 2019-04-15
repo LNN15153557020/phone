@@ -1,0 +1,383 @@
+{include file="public/__head" /}
+<div class="content2">
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="info">
+                <div class="username">
+                    <div class="name">
+                        <span>{:session('manger_name')}</span>
+                    </div>
+                </div>
+                <div class="name_info">
+                    <span>登陆部门：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$result['department']['department_name']}</span> <br>
+                    <span>登陆时间：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$loginTime}</span>
+                </div>
+            </div>
+        </div>
+        <!--左边事务-->
+        <div class="col-sm-8">
+            <div class="thing">
+                <div class="view-title">
+                    <div style="line-height: 30px; margin-left:5px;">
+                        <i class="fa fa-certificate"></i>
+                        业务详情
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="order_class all_border" style="padding-left: 10px;">
+                            <div class="order_title">
+                                订单数量
+                            </div>
+                            <div class="order_number order_red">
+                                <div class="buss-icon">
+                                    <i class="fa fa-bolt"></i>
+                                    5
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="order_class all_border">
+                            <div class="order_title">
+                                客户注册人数
+                            </div>
+                            <div class="order_number order_orange">
+                                <div class="buss-icon">
+                                    <i class="fa fa-bolt"></i>
+                                    5
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="order_class all_border" style="padding-right: 10px">
+                            <div class="order_title">
+                                在职员工数量
+                            </div>
+                            <div class="order_number order_blue">
+                                <div class="buss-icon">
+                                    <i class="fa fa-bolt"></i>
+                                    5
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="view1">
+                <div class="view-title">
+                    <div style="line-height: 30px; margin-left:5px;">
+                        <i class="fa fa-wpexplorer"></i>
+                        周订单数量
+                    </div>
+                </div>
+                <div id="sale" style="width:100%; height: 250px; margin-top: -15px;padding: 5px;"></div>
+            </div>
+        </div>
+        <div class="col-sm-8">
+            <div class="left-table">
+                <div class="view-title">
+                    <div style="line-height: 30px; margin-left:5px;">
+                        <i class="fa fa-bullseye"></i>
+                        事务详情
+                    </div>
+                </div>
+                <div class="agency table-responsive table-bordered table-sm">
+                    <table class="table agency-table">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>姓名</th>
+                            <th>部门</th>
+                            <th width="200px">事项</th>
+                            <th>状态</th>
+                            <th>日期</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Anna</td>
+                            <td>销售部</td>
+                            <td>xxxx</td>
+                            <td>xxxx</td>
+                            <td>2018-12-30</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Anna</td>
+                            <td>销售部</td>
+                            <td>xxxx</td>
+                            <td>xxxx</td>
+                            <td>2018-12-30</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Anna</td>
+                            <td>销售部</td>
+                            <td>xxxx</td>
+                            <td>xxxx</td>
+                            <td>2018-12-30</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>Anna</td>
+                            <td>销售部</td>
+                            <td>xxxx</td>
+                            <td>xxxx</td>
+                            <td>2018-12-30</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>Anna</td>
+                            <td>销售部</td>
+                            <td>xxxx</td>
+                            <td>xxxx</td>
+                            <td>2018-12-30</td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td>Anna</td>
+                            <td>销售部</td>
+                            <td>xxxx</td>
+                            <td>xxxx</td>
+                            <td>2018-12-30</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="view1" style="height: 270px;">
+                <div class="view-title">
+                    <div style="line-height: 30px; margin-left:5px;">
+                        <i class="fa fa-balance-scale"></i>
+                        产品占比
+                    </div>
+                </div>
+                <div id="proportion" style="width:100%; height: 250px;padding: 5px;"></div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="view1" style="height: 270px;">
+                <div class="view-title">
+                    <div style="line-height: 30px; margin-left:5px;">
+                        <i class="fa fa-balance-scale"></i>
+                        客户职业属性
+                    </div>
+                </div>
+                <div id="clientProportion" style="width:100%; height: 250px;padding: 5px;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="view2">
+                <div class="view-title">
+                    <div style="line-height: 30px; margin-left:5px;">
+                        <i class="fa fa-home"></i>
+                        周销售额
+                    </div>
+                </div>
+                <div id="sale_order" style="width:100%; height: 300px;padding: 5px;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    // 周销售量
+    var option = {
+        tooltip: {},
+        legend: {},
+        xAxis: {
+            name: '￥'
+        },
+        yAxis: {
+            name: '日期',
+            data: ["周一", "周二", "周三", "周四", "周五", "周六", "周日"]
+        },
+        series: [{
+            // name: '销量',
+            type: 'bar',
+            data: [10000, 14300, 13200, 12320, 9000, 20000, 12002],
+            itemStyle: {
+                normal: {
+                    color: function (params) {   // 根据in 和 out 判断显示颜色
+                        return '#005ab5'
+                    }
+                }
+            }
+        }]
+    };
+    var myChart = echarts.init(document.getElementById('sale'));
+    myChart.setOption(option);
+    // 占比
+    option = {
+        tooltip : {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        legend: {
+            orient : 'vertical',
+            x : 'left',
+            data:['OPPO','VIVO','华为','小米']
+        },
+        toolbox: {
+            show : true,
+            feature : {
+                mark : {show: true},
+                dataView : {show: true, readOnly: false},
+                magicType : {
+                    show: true,
+                    type: ['pie', 'funnel'],
+                    option: {
+                        funnel: {
+                            x: '25%',
+                            width: '50%',
+                            funnelAlign: 'left',
+                            max: 1548
+                        }
+                    }
+                },
+                restore : {show: true},
+                saveAsImage : {show: true}
+            }
+        },
+        calculable : true,
+        series : [
+            {
+                name:'访问来源',
+                type:'pie',
+                radius : '55%',
+                center: ['50%', '60%'],
+                data:[
+                    {value:335, name:'OPPO'},
+                    {value:310, name:'VIVO'},
+                    {value:234, name:'小米'},
+                    {value:135, name:'华为'},
+                ]
+            }
+        ]
+    };
+    var myChart = echarts.init(document.getElementById('proportion'));
+    myChart.setOption(option);
+    // 客户职业
+    option = {
+        tooltip : {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        legend: {
+            orient : 'vertical',
+            x : 'left',
+            data:['司机','医生','工程师','其他']
+        },
+        toolbox: {
+            show : true,
+            feature : {
+                mark : {show: true},
+                dataView : {show: true, readOnly: false},
+                magicType : {
+                    show: true,
+                    type: ['pie', 'funnel'],
+                    option: {
+                        funnel: {
+                            x: '25%',
+                            width: '50%',
+                            funnelAlign: 'left',
+                            max: 1548
+                        }
+                    }
+                },
+                restore : {show: true},
+                saveAsImage : {show: true}
+            }
+        },
+        calculable : true,
+        series : [
+            {
+                name:'访问来源',
+                type:'pie',
+                radius : '55%',
+                center: ['50%', '60%'],
+                data:[
+                    {value:335, name:'司机'},
+                    {value:310, name:'医生'},
+                    {value:234, name:'工程师'},
+                    {value:135, name:'其他'},
+                ]
+            }
+        ]
+    };
+    var myChart = echarts.init(document.getElementById('clientProportion'));
+    myChart.setOption(option);
+    // 周销售额
+    option = {
+        tooltip : {
+            trigger: 'axis'
+        },
+        legend: {
+            data:['OPPO','VIVO','小米','华为']
+        },
+        toolbox: {
+            show : true,
+            feature : {
+                mark : {show: true},
+                dataView : {show: true, readOnly: false},
+                magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+                restore : {show: true},
+                saveAsImage : {show: true}
+            }
+        },
+        calculable : true,
+        xAxis : [
+            {
+                type : 'category',
+                boundaryGap : false,
+                data : ['周一','周二','周三','周四','周五','周六','周日']
+            }
+        ],
+        yAxis : [
+            {
+                type : 'value'
+            }
+        ],
+        series : [
+            {
+                name:'OPPO',
+                type:'line',
+                stack: '总量',
+                data:[120, 132, 101, 134, 90, 230, 210]
+            },
+            {
+                name:'VIVO',
+                type:'line',
+                stack: '总量',
+                data:[220, 182, 191, 234, 290, 330, 310]
+            },
+            {
+                name:'小米',
+                type:'line',
+                stack: '总量',
+                data:[150, 232, 201, 154, 190, 330, 410]
+            },
+            {
+                name:'华为',
+                type:'line',
+                stack: '总量',
+                data:[320, 332, 301, 334, 390, 330, 320]
+            }
+        ]
+    };
+    var myChart = echarts.init(document.getElementById('sale_order'));
+    myChart.setOption(option);
+</script>
+{include file="public/__footer" /}
